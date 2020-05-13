@@ -1,0 +1,60 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    }
+
+}
+
+version = "1.0"
+description = "Simple console drawing tool"
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'groovy'
+apply plugin: 'jacoco'
+
+allprojects {
+    apply plugin: 'idea'
+    idea {
+        module {
+            outputDir file('build/classes/main')
+            testOutputDir file('build/classes/test')
+        }
+    }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    implementation('org.codehaus.groovy:groovy:3.0.2')
+
+    testImplementation('org.spockframework:spock-core:2.0-M2-groovy-3.0')
+    testImplementation(group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.2', ext: 'pom')
+}
+
+jar {
+    baseName = 'DrwaingCmd'
+    manifest {
+        attributes 'Main-Class': 'com.credit.swiss.Main'
+    }
+}
+
+test {
+    test {
+        useJUnitPlatform()
+    }
+    testLogging {
+        outputs.upToDateWhen {false}
+        showStandardStreams = true
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
